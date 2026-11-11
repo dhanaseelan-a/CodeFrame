@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#090c19">
+<title>CodeFrame Studio — code to colorful Canva-ready images</title>
+<style>
+  :root{color-scheme:dark;--bg:#080b16;--panel:#111729;--panel2:#161d32;--border:#2b344d;--muted:#8d9ab6;--text:#eef2ff;--accent:#8e79ff;--purple:#9c78ff;--cyan:#55def1;--pink:#fa76c6}
+  *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+  body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(ellipse 42% 34% at 1% 2%,#3a256e34,transparent),radial-gradient(ellipse 36% 50% at 98% 20%,#124b6f22,transparent),linear-gradient(135deg,#080b17,#0b1020 65%,#0a0e1b)}
+  button,input,select,textarea{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid #aa92ff;outline-offset:2px}
+  .shell{max-width:1700px;margin:0 auto;padding:0 36px 38px}
+  header.topbar{display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff16;height:76px;gap:20px}
+  .brand{display:flex;align-items:center;gap:12px;color:white;text-decoration:none}.brand-mark{width:38px;height:38px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(135deg,#bd6bff,#5f79ff 60%,#26d5e9);box-shadow:0 7px 22px #684aff41}
+  .brand-mark svg{width:23px;height:23px}.brand-name{font-size:20px;font-weight:820;letter-spacing:-.7px}.brand-name span{color:#a795ff}.brand-small{font-size:9px;font-weight:700;letter-spacing:2px;color:#97a7ce;margin-top:3px}
+  .top-right{display:flex;align-items:center;gap:13px;color:#a9b4d0;font-size:12px}.privacy-dot{width:7px;height:7px;border-radius:50%;background:#6cf0ad;box-shadow:0 0 13px #47df94}.top-note{border:1px solid #343b56;border-radius:999px;padding:9px 13px;background:#151b2d}
+  .hero{padding:36px 0 26px;display:flex;align-items:end;justify-content:space-between;gap:18px}.eyebrow{display:flex;align-items:center;gap:9px;color:#a99afb;letter-spacing:2.3px;font-size:11px;font-weight:800;text-transform:uppercase}.eyebrow::before{content:"";height:2px;width:28px;border-radius:8px;background:linear-gradient(90deg,#e37eff,#6ccaff)}
+  h1{margin:12px 0 10px;font-size:clamp(30px,3.2vw,50px);font-weight:860;line-height:1.07;letter-spacing:-2.1px}h1 em{font-style:normal;background:linear-gradient(95deg,#c58cff 5%,#ea76dc 46%,#53ddec 95%);color:transparent;background-clip:text}
+  .subtitle{margin:0;color:#a7b4d0;line-height:1.55;font-size:14px;max-width:680px}.hero-badge{display:flex;gap:7px;align-items:center;white-space:nowrap;background:#151b30;border:1px solid #343c5a;color:#bac9e8;font-size:11px;font-weight:700;padding:10px 13px;border-radius:100px;margin-bottom:4px}
+  .workspace{display:grid;grid-template-columns:minmax(315px,410px) minmax(0,1fr);gap:20px;align-items:start}.side{min-width:0}.box{background:linear-gradient(150deg,#151b2d,#101625);border:1px solid #303951;border-radius:19px;box-shadow:0 13px 50px #00000026;overflow:hidden}.box+.box{margin-top:16px}
+  .box-head{padding:19px 20px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px}.section-title{display:flex;gap:9px;align-items:center;font-size:14px;font-weight:750}.section-title .num{display:grid;place-items:center;font-size:10px;font-weight:800;color:#bdadff;border:1px solid #62519d;border-radius:7px;height:24px;width:24px;background:#6a50bb26}
+  .small-note{font-size:11px;color:var(--muted)}.code-options{display:flex;gap:10px;padding:0 18px 13px;align-items:center}.field{display:flex;flex-direction:column;gap:7px;min-width:0}.field>label,.control-row label,.mini-label{font-size:11px;font-weight:720;letter-spacing:.25px;color:#bac5df}.field>label{margin-left:1px}.field-grow{flex:1}
+  input.text,select{height:37px;width:100%;border:1px solid #38435b;background:#0d1325;color:#ecf2ff;border-radius:9px;padding:0 11px;font-size:12px;min-width:0}select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23bac9e7' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-position:calc(100% - 12px) center;background-repeat:no-repeat;padding-right:29px}
+  .editor-shell{margin:0 18px 13px;border:1px solid #38445f;border-radius:12px;overflow:hidden;background:#090f1d}.editor-tabbar{height:37px;border-bottom:1px solid #2c3751;background:#141c2e;display:flex;align-items:center;gap:9px;padding:0 12px}.file-icon{font-size:9px;padding:3px 4px;border-radius:3px;font-weight:850;color:#0b0f1e;background:#eec257;letter-spacing:-.3px}.editor-tabbar .file-label{font-size:11px;color:#bdc9e7;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.editor-tabbar .file-hint{font-size:10px;color:#687693}
+  textarea#code{display:block;resize:vertical;width:100%;min-height:238px;max-height:650px;line-height:1.58;font:12.5px/1.58 Consolas,"Courier New",monospace;color:#d5e5ff;background:#0b1121;outline:0;border:0;padding:16px 14px;tab-size:2;white-space:pre;overflow:auto}textarea#code:focus{outline:0}.editor-footer{display:flex;align-items:center;justify-content:space-between;padding:0 19px 16px;color:#8d9cb7;font-size:10px}.text-button{border:0;color:#b3a6ff;background:transparent;font-size:11px;font-weight:720;padding:4px 0}.text-button:hover{text-decoration:underline}
+  .design-body{padding:0 19px 18px}.mini-label{display:block;margin-bottom:10px}.themes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}.theme-swatch{padding:0;border:2px solid transparent;border-radius:11px;background:transparent;height:48px;position:relative}.theme-swatch .swatch-inner{display:block;width:100%;height:100%;border-radius:8px;overflow:hidden;position:relative}.theme-swatch .swatch-inner::before{content:"";position:absolute;left:16%;top:24%;width:66%;height:56%;border-radius:4px;border:1px solid #ffffff5e;background:linear-gradient(135deg,#141b37,#222a49)}.theme-swatch .swatch-inner::after{content:"";position:absolute;left:25%;top:40%;width:44%;height:3px;border-radius:9px;background:#fc84c9;box-shadow:0 6px #78e7d5,0 12px #d7c273}.theme-swatch.selected{border-color:#cab6ff;box-shadow:0 0 0 2px #ab80ef27}.theme-swatch.selected::after{content:"✓";position:absolute;right:-5px;top:-8px;width:16px;height:16px;border-radius:50%;display:grid;place-items:center;font-size:11px;font-weight:900;background:#a889ff;color:#090d19}
+  .theme-names{display:flex;justify-content:space-between;gap:9px;font-size:10px;color:#99a7c1;margin:5px 1px 21px}.style-buttons{display:flex;gap:10px;margin-bottom:19px}.style-choice{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid #36445f;border-radius:10px;height:42px;background:#10182b;color:#b9c5db;font-size:12px;font-weight:720}.style-choice.selected{background:#44397c69;color:#e5dcff;border-color:#a28cf9}.style-choice svg{width:21px;height:21px}.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:13px}.control-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:15px}.range-line{display:flex;align-items:center;gap:13px}.range-line input{flex:1;min-width:0;accent-color:#a687ff}.range-value{width:30px;text-align:right;color:#c7baff;font-size:12px;font-weight:780}.toggle{width:39px;height:23px;border:0;border-radius:50px;background:#44506a;position:relative;transition:background .2s}.toggle::before{content:"";position:absolute;left:3px;top:3px;background:#dce4f5;width:17px;height:17px;border-radius:50%;transition:transform .2s}.toggle[aria-pressed="true"]{background:linear-gradient(100deg,#8c66f5,#bd65de)}.toggle[aria-pressed="true"]::before{transform:translateX(16px);background:white}
+  .preview-panel{min-width:0;position:sticky;top:18px}.preview-header{height:66px;padding:0 19px;display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #2c344c}.preview-title{font-size:14px;font-weight:760}.preview-kicker{margin-top:5px;color:#8fa0bd;font-size:11px}.preview-tools{display:flex;gap:8px}.preview-tool{border:1px solid #3b4762;background:#1b263d;color:#c2d0eb;border-radius:8px;font-size:11px;padding:8px 12px}.preview-tool:hover{background:#2d3957}.preview-area{min-height:530px;display:grid;place-items:center;padding:36px 28px;overflow:hidden;position:relative;background-color:#0c1222;background-image:linear-gradient(45deg,#ffffff04 25%,transparent 25%),linear-gradient(-45deg,#ffffff04 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#ffffff04 75%),linear-gradient(-45deg,transparent 75%,#ffffff04 75%);background-size:24px 24px;background-position:0 0,0 12px,12px -12px,-12px 0}
+  .preview-area::after{content:"";position:absolute;inset:0;pointer-events:none;box-shadow:inset 0 0 60px #030a1a65}.art-image{display:block;width:100%;height:auto;max-height:600px;object-fit:contain;filter:drop-shadow(0 23px 32px #00000064)}.preview-footer{border-top:1px solid #303954;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 18px;color:#8798b6;font-size:11px}.preview-footer strong{color:#d0daf2;font-weight:650}.export-section{margin-top:18px;padding:20px;border:1px solid #35405e;border-radius:17px;background:linear-gradient(105deg,#171e34,#11172a);box-shadow:0 10px 32px #00000022}.export-top{display:flex;align-items:center;justify-content:space-between;gap:15px}.export-title{font-size:15px;font-weight:800}.export-desc{font-size:11px;color:#9aabc5;margin-top:6px}.export-buttons{display:flex;gap:10px;align-items:center}.export-btn{display:flex;align-items:center;justify-content:center;gap:9px;height:45px;border-radius:10px;padding:0 18px;white-space:nowrap;font-size:12px;font-weight:780;transition:transform .15s,filter .15s}.export-btn:hover{transform:translateY(-2px);filter:brightness(1.1)}.export-btn.primary{border:0;color:#0d0d1f;background:linear-gradient(110deg,#ceadff,#a595ff 50%,#74d2f3);box-shadow:0 7px 24px #765cf82b}.export-btn.secondary{background:#202c44;border:1px solid #4e5d7b;color:#e4ebff}.export-btn svg{width:16px;height:16px}
+  .tip{margin-top:12px;font-size:11px;color:#8fa0bb;display:flex;gap:7px;align-items:flex-start;line-height:1.5}.tip strong{color:#c8d4ed}.toast{position:fixed;bottom:24px;right:24px;padding:12px 17px;border:1px solid #6f60a8;background:#1c2040;color:#e9e8ff;z-index:50;border-radius:10px;box-shadow:0 10px 30px #0008;font-size:12px;max-width:min(90vw,400px);pointer-events:none;opacity:0;transform:translateY(12px);transition:opacity .2s,transform .2s}.toast.show{opacity:1;transform:translateY(0)}footer.site-footer{display:flex;justify-content:space-between;gap:16px;color:#687793;font-size:11px;padding:23px 0 0}
+  @media(max-width:1100px){.workspace{grid-template-columns:minmax(295px,360px) minmax(0,1fr)}.shell{padding-inline:22px}.preview-area{min-height:410px;padding:20px}.export-top{align-items:start;flex-direction:column}.export-buttons{width:100%}.export-btn{flex:1}}@media(max-width:800px){.workspace{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr;gap:14px}.side .box+.box{margin:0}.preview-panel{position:static}.preview-area{min-height:360px}.hero{align-items:start}.hero-badge{display:none}}@media(max-width:650px){.shell{padding:0 13px 25px}.topbar{height:66px!important}.top-note{font-size:10px}.brand-name{font-size:18px}.brand-small{font-size:8px}.hero{padding:25px 0}.hero h1{letter-spacing:-1.2px}.hero .subtitle{font-size:12px}.side{grid-template-columns:1fr}.box-head{padding:16px}.preview-header{padding:0 13px;height:60px}.preview-tools #copy-svg{display:none}.preview-area{min-height:290px;padding:12px}.export-section{padding:15px}.export-buttons{flex-wrap:wrap}.export-btn{min-width:120px}.preview-footer{font-size:10px}.theme-swatch{height:51px}footer.site-footer{font-size:10px;flex-direction:column;gap:4px}}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+
+  /* Larger palette library: clickable color tiles with individual labels. */
+  .themes{grid-template-columns:repeat(6,minmax(0,1fr));gap:9px 7px;margin-bottom:21px}
+  .theme-swatch{height:auto;min-height:70px;display:flex;flex-direction:column;align-items:center;gap:5px;padding:3px 2px 5px;border-radius:11px}
+  .theme-swatch .swatch-inner{width:100%;height:44px;min-height:44px}
+  .theme-swatch .swatch-name{font-size:9px;line-height:1.2;color:#b3bed6;font-weight:620;white-space:normal;text-align:center;overflow-wrap:anywhere}
+  .theme-swatch.selected .swatch-name{color:#efdcff}
+  .label-count{float:right;font-size:10px;color:#a899e9;font-weight:550;letter-spacing:0}
+  .style-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-bottom:18px}
+  .style-choice{min-width:0;height:59px;padding:7px 3px;flex-direction:column;gap:4px;line-height:1.1;text-align:center;font-size:10px}
+  .style-glyph{font-size:24px;line-height:24px;color:#c5acff;font-weight:600}
+  .style-choice.selected .style-glyph{color:#f7dcff}
+  textarea#code{white-space:pre-wrap;overflow-wrap:anywhere;word-break:normal;overflow-x:auto}
+  .wrap-config{border-radius:10px;margin-top:10px;padding:12px;background:#0d1426;border:1px solid #313e59}
+  .wrap-config .field>label{font-size:10px}
+  .wrap-hint{font-size:10px;line-height:1.4;color:#8191af;margin-top:9px}
+  .transparent-hint{font-size:10px;line-height:1.45;color:#89a0bd;margin:-2px 0 12px;padding:10px 12px;border-radius:10px;background:#0d1426;border:1px solid #313e59}
+  .wrap-config.is-disabled{display:none}
+  .preview-area.is-transparent{background-image:linear-gradient(45deg,#1a2137 25%,transparent 25%),linear-gradient(-45deg,#1a2137 25%,transparent 25%),linear-gradient(45deg,transparent 75%,#1a2137 75%),linear-gradient(-45deg,transparent 75%,#1a2137 75%);background-size:26px 26px;background-position:0 0,0 13px,13px -13px,-13px 0;background-color:#11192c}
+  .svg-quick{border-color:#9377e6;background:#3c2e6c;color:#f1eaff;font-weight:780}
+  @media(max-width:800px){.style-buttons{grid-template-columns:repeat(3,minmax(0,1fr))}}
+  @media(max-width:420px){.themes{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}.theme-swatch{min-height:77px}.theme-swatch .swatch-name{font-size:8px}.preview-kicker{font-size:10px}.svg-quick{font-size:10px;padding:7px 9px}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="topbar">
+  <a class="brand" href="#top" aria-label="CodeFrame Studio home"><div class="brand-mark"><svg viewBox="0 0 28 28" fill="none" aria-hidden="true"><path d="m10 7-7 7 7 7M18 7l7 7-7 7M16.5 4l-5 20" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div><div class="brand-name">CodeFrame <span>Studio</span></div><div class="brand-small">DESIGN YOUR CODE</div></div></a>
+  <div class="top-right"><span class="privacy-dot"></span><span class="top-note">Private · No sign-up · Frontend only</span></div>
+</header>
+<section class="hero" id="top"><div><div class="eyebrow">The colorful code image maker · v2</div><h1>Make your code <em>look amazing.</em></h1><p class="subtitle">Paste any code, turn it into a beautiful VS Code–inspired or isometric design, and export a sharp image ready for Canva.</p></div><div class="hero-badge">✦ &nbsp; 18 COLOR PALETTES · 6 WINDOW STYLES</div></section>
+<main class="workspace">
+<div class="side">
+<section class="box" aria-label="Code editor"><div class="box-head"><div class="section-title"><span class="num">01</span> Your code</div><span class="small-note">Paste or type anything</span></div>
+<div class="code-options"><div class="field field-grow"><label for="language">Language</label><select id="language"><option value="auto">Auto-detect</option><option value="javascript">JavaScript</option><option value="typescript">TypeScript</option><option value="html">HTML / XML</option><option value="css">CSS / SCSS</option><option value="java">Java</option><option value="cpp">C++ / C</option><option value="python">Python</option><option value="json">JSON</option><option value="csharp">C#</option><option value="go">Go</option><option value="php">PHP</option><option value="plain">Plain text</option></select></div><div class="field" style="flex:1.1"><label for="filename">File name</label><input class="text" id="filename" value="colorful-code.js" maxlength="90" spellcheck="false" aria-label="File name"></div></div>
+<div class="editor-shell"><div class="editor-tabbar"><span class="file-icon" id="editor-icon">JS</span><span class="file-label" id="file-label">colorful-code.js</span><span class="file-hint">●</span></div><textarea id="code" spellcheck="false" aria-label="Paste code here" wrap="soft"></textarea></div><div class="editor-footer"><span id="code-counter">0 lines · 0 characters</span><button class="text-button" id="sample">Load example ↗</button></div></section>
+<section class="box" aria-label="Image design"><div class="box-head"><div class="section-title"><span class="num">02</span> Customize design</div><span class="small-note">Make it yours</span></div><div class="design-body">
+<label class="mini-label">Color palette <span class="label-count">18 palettes</span></label><div class="themes" id="themes"><button type="button" class="theme-swatch selected" data-theme="aurora" aria-label="Aurora color palette" title="Aurora" aria-pressed="true"><span class="swatch-inner" style="background:linear-gradient(135deg,#3822a2,#9b42cc,#22bccc)"></span><span class="swatch-name">Aurora</span></button><button type="button" class="theme-swatch" data-theme="sunset" aria-label="Sunset color palette" title="Sunset" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#61207d,#fc668a,#ffcb76)"></span><span class="swatch-name">Sunset</span></button><button type="button" class="theme-swatch" data-theme="ocean" aria-label="Ocean color palette" title="Ocean" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#06398d,#2279c1,#2decc6)"></span><span class="swatch-name">Ocean</span></button><button type="button" class="theme-swatch" data-theme="candy" aria-label="Candy color palette" title="Candy" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#7132ca,#e14ec5,#ff94b1)"></span><span class="swatch-name">Candy</span></button><button type="button" class="theme-swatch" data-theme="matrix" aria-label="Matrix color palette" title="Matrix" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#075053,#2aa76f,#d6ed65)"></span><span class="swatch-name">Matrix</span></button><button type="button" class="theme-swatch" data-theme="noir" aria-label="Neon Noir color palette" title="Neon Noir" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#101633,#6c2ac4,#ed5dff)"></span><span class="swatch-name">Neon Noir</span></button><button type="button" class="theme-swatch" data-theme="lavender" aria-label="Lavender color palette" title="Lavender" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#6853ca,#aa8cf5,#ecd5ff)"></span><span class="swatch-name">Lavender</span></button><button type="button" class="theme-swatch" data-theme="citrus" aria-label="Citrus color palette" title="Citrus" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#235f61,#56aa5c,#ebda4f)"></span><span class="swatch-name">Citrus</span></button><button type="button" class="theme-swatch" data-theme="sakura" aria-label="Sakura color palette" title="Sakura" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#7d3a89,#ff80aa,#ffd8ca)"></span><span class="swatch-name">Sakura</span></button><button type="button" class="theme-swatch" data-theme="ember" aria-label="Ember color palette" title="Ember" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#4b162d,#c53352,#ff9a35)"></span><span class="swatch-name">Ember</span></button><button type="button" class="theme-swatch" data-theme="arctic" aria-label="Arctic color palette" title="Arctic" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#17468d,#87b9e5,#e6fff8)"></span><span class="swatch-name">Arctic</span></button><button type="button" class="theme-swatch" data-theme="peach" aria-label="Peach color palette" title="Peach" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#a83e67,#ff977d,#ffd1a0)"></span><span class="swatch-name">Peach</span></button><button type="button" class="theme-swatch" data-theme="galaxy" aria-label="Galaxy color palette" title="Galaxy" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#26135e,#7948e2,#36dafd)"></span><span class="swatch-name">Galaxy</span></button><button type="button" class="theme-swatch" data-theme="emerald" aria-label="Emerald color palette" title="Emerald" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#085d51,#26c69c,#b5f381)"></span><span class="swatch-name">Emerald</span></button><button type="button" class="theme-swatch" data-theme="retro" aria-label="Retro Pop color palette" title="Retro Pop" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#6e387e,#f26497,#f4c65d)"></span><span class="swatch-name">Retro Pop</span></button><button type="button" class="theme-swatch" data-theme="cyber" aria-label="Cyberpunk color palette" title="Cyberpunk" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#361a9c,#eb37cb,#50fff3)"></span><span class="swatch-name">Cyberpunk</span></button><button type="button" class="theme-swatch" data-theme="solar" aria-label="Solarized color palette" title="Solarized" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#304768,#c59f61,#fae0a2)"></span><span class="swatch-name">Solarized</span></button><button type="button" class="theme-swatch" data-theme="ice" aria-label="Ice Cream color palette" title="Ice Cream" aria-pressed="false"><span class="swatch-inner" style="background:linear-gradient(135deg,#6586be,#e4aaf2,#9de8dc)"></span><span class="swatch-name">Ice Cream</span></button></div>
+<label class="mini-label">Window style <span class="label-count">6 styles</span></label><div class="style-buttons" id="styles"><button type="button" id="iso" class="style-choice selected" aria-pressed="true"><span class="style-glyph" aria-hidden="true">⬡</span><span>Isometric 3D</span></button><button type="button" id="flat" class="style-choice" aria-pressed="false"><span class="style-glyph" aria-hidden="true">▣</span><span>Classic flat</span></button><button type="button" id="glass" class="style-choice" aria-pressed="false"><span class="style-glyph" aria-hidden="true">✧</span><span>Glass glow</span></button><button type="button" id="terminal" class="style-choice" aria-pressed="false"><span class="style-glyph" aria-hidden="true">⌘</span><span>Terminal</span></button><button type="button" id="minimal" class="style-choice" aria-pressed="false"><span class="style-glyph" aria-hidden="true">▤</span><span>Minimal</span></button><button type="button" id="stacked" class="style-choice" aria-pressed="false"><span class="style-glyph" aria-hidden="true">▱</span><span>Layered 3D</span></button></div>
+<div class="grid-2"><div class="field"><label for="layout">Image shape</label><select id="layout"><option value="auto">Auto fit</option><option value="landscape">Wide · 16:10</option><option value="square">Square · 1:1</option><option value="portrait">Portrait · 4:5</option></select></div><div class="field"><label for="resolution">Export quality</label><select id="resolution"><option value="1">1× Standard</option><option value="2" selected>2× High-res</option><option value="3">3× Ultra</option></select></div></div>
+<div class="control-row"><label for="font-size">Code font size</label><span class="range-line"><input type="range" id="font-size" min="14" max="25" step="1" value="19"><span id="font-size-value" class="range-value">19</span></span></div>
+<div class="control-row"><label for="show-lines">Show line numbers</label><button type="button" id="show-lines" class="toggle" role="switch" aria-checked="true" aria-pressed="true" aria-label="Show line numbers"></button></div>
+<div class="control-row"><label for="transparent-bg">Transparent background</label><button type="button" id="transparent-bg" class="toggle" role="switch" aria-checked="false" aria-pressed="false" aria-label="Transparent background"></button></div>
+<div class="transparent-hint">Perfect for Canva overlays. SVG and PNG keep transparency; JPG uses a clean solid background.</div>
+<div class="control-row"><label for="wrap-lines">Wrap long lines</label><button type="button" id="wrap-lines" class="toggle" role="switch" aria-checked="true" aria-pressed="true" aria-label="Wrap long lines"></button></div><div class="wrap-config" id="wrap-config"><div class="field"><label for="wrap-width">Wrap width</label><select id="wrap-width"><option value="42">Tight · 42 characters</option><option value="60" selected>Balanced · 60 characters</option><option value="80">Wide · 80 characters</option></select></div><div class="wrap-hint">Long lines continue neatly on the next line in your editor and image.</div></div>
+</div></section></div>
+<div class="preview-column"><section class="box preview-panel" aria-label="Live image preview"><div class="preview-header"><div><div class="preview-title">✦ &nbsp; Live preview</div><div class="preview-kicker">Every color, angle, and highlight updates automatically.</div></div><div class="preview-tools"><button class="preview-tool svg-quick" id="quick-save-svg" title="Save a Canva-ready SVG vector image">↓ SVG image</button><button class="preview-tool" id="copy-svg">Copy SVG</button><button class="preview-tool" id="reset-design">Reset</button></div></div><div class="preview-area" id="preview-area"><img id="preview" class="art-image" alt="A colorful VS Code-style image with syntax-highlighted code"></div><div class="preview-footer"><span><strong id="preview-size">1600 × 1000</strong> &nbsp; <span id="wrap-status">Wrap: on · 60 chars</span> &nbsp; · &nbsp; SVG · JPG · PNG</span><span id="detected-label">JavaScript detected</span></div></section>
+<div class="export-section"><div class="export-top"><div><div class="export-title">Ready to share your masterpiece?</div><div class="export-desc">Vector SVG for sharp graphics, or high-resolution JPG / PNG for quick Canva uploads.</div></div><div class="export-buttons"><button class="export-btn primary" id="save-svg"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 17v3h14v-3"/></svg> Download SVG image</button><button class="export-btn secondary" id="save-jpg">↓ &nbsp;JPG</button><button class="export-btn secondary" id="save-png">↓ &nbsp;PNG</button></div></div><div class="tip">✦ <span><strong>Canva-friendly:</strong> All exports are built with standard SVG shapes and text. SVG keeps the design scalable; JPG and PNG preserve its exact appearance.</span></div></div></div>
+</main><footer class="site-footer"><span>CodeFrame Studio · Built with HTML, CSS &amp; JavaScript only.</span><span>All code is processed locally in your browser. Nothing is uploaded.</span></footer></div>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script>
+(() => {
+'use strict';
+const $ = id => document.getElementById(id);
+const sampleCode = `// A little magic, powered by JavaScript ✨
+const colors = ['#A78BFA', '#F472B6', '#67E8F9'];
+
+function createArt(name) {
+  const message = \`Hello, \${name}!\`;
+  const palette = colors.map((color, index) => ({
+    id: index + 1,
+    color,
+    active: true
+  }));
+
+  console.log(message, palette);
+  return palette.filter(item => item.active);
+}
+
+createArt('Canva');`;
+const examples = {
+  javascript: sampleCode,
+  html: `<!DOCTYPE html>\n<html lang="en">\n  <head>\n    <title>My colorful page</title>\n  </head>\n  <body>\n    <h1 class="headline">Hello, world!</h1>\n    <button id="start">Get started</button>\n  </body>\n</html>`,
+  css: `/* A small, colorful design system */\n:root {\n  --primary: #a78bfa;\n  --accent: #67e8f9;\n}\n\n.hero {\n  display: grid;\n  place-items: center;\n  padding: 4rem;\n  background: linear-gradient(135deg, #432aa5, #e05fc7);\n  border-radius: 24px;\n}`,
+  java: `public class HelloWorld {\n    public static void main(String[] args) {\n        String name = "Canva";\n        int count = 3;\n\n        for (int i = 0; i < count; i++) {\n            System.out.println("Hello, " + name);\n        }\n    }\n}`,
+  cpp: `#include <iostream>\n#include <vector>\nusing namespace std;\n\nint main() {\n    vector<int> numbers = {1, 2, 3, 4};\n    for (int number : numbers) {\n        cout << "Value: " << number << endl;\n    }\n    return 0;\n}`,
+  python: `# Python makes ideas come alive\ndef create_palette(colors):\n    for index, color in enumerate(colors):\n        print(f"Color {index + 1}: {color}")\n    return len(colors)\n\npalette = ["violet", "pink", "cyan"]\nprint(create_palette(palette))`,
+  json: `{\n  "name": "CodeFrame Studio",\n  "theme": "aurora",\n  "languages": ["JavaScript", "HTML", "CSS"],\n  "isometric": true,\n  "fontSize": 19\n}`
+};
+const themes = {
+ aurora: {bg1:'#0e114a',bg2:'#6c289f',bg3:'#0c9bb1',shine:'#d86cf8',orb:'#24c8e9',card:'#10152d',bar:'#1d2445',border:'#676da6',layer:'#974dff',layer2:'#36caf4',text:'#e3edff',muted:'#7885aa',keyword:'#cc91ff',string:'#a2f1b5',number:'#ffce75',comment:'#7988a8',function:'#72dfff',property:'#70e6d3',tag:'#ff8dc8',operator:'#f3a7e9',type:'#ffbf7c'},
+ sunset: {bg1:'#4c125f',bg2:'#c83e7b',bg3:'#f6a449',shine:'#ff92e6',orb:'#ffdb7c',card:'#2a1b37',bar:'#3d2446',border:'#bc699e',layer:'#fb6b9d',layer2:'#ffc06e',text:'#fff0f5',muted:'#ab8fa9',keyword:'#ff91bf',string:'#ffe19b',number:'#a8f0d4',comment:'#a58da8',function:'#b0b4ff',property:'#78e6dc',tag:'#ffc487',operator:'#f9bdf5',type:'#fcd5a6'},
+ ocean: {bg1:'#071b51',bg2:'#16549d',bg3:'#0ab5ac',shine:'#49b4ff',orb:'#75f7dd',card:'#0b2036',bar:'#13314a',border:'#4f8cab',layer:'#3a9cfc',layer2:'#42f2c9',text:'#e1f7ff',muted:'#7299ae',keyword:'#a8a5ff',string:'#9ef2bc',number:'#ffcc83',comment:'#76a1b4',function:'#5bdcf6',property:'#61efd2',tag:'#ff9cbd',operator:'#dcaaff',type:'#ffbe8d'},
+ candy: {bg1:'#46118b',bg2:'#bc37bd',bg3:'#fb6da4',shine:'#f2a4ff',orb:'#ffbbd9',card:'#291a4a',bar:'#38215b',border:'#9964b1',layer:'#ba6bff',layer2:'#ff8abd',text:'#fff0fe',muted:'#a493ba',keyword:'#dc9dff',string:'#9df7c3',number:'#ffe08d',comment:'#9d91ae',function:'#7fe9ff',property:'#a5e3ff',tag:'#ff9cbd',operator:'#f7a7e8',type:'#ffc4a2'},
+ matrix: {bg1:'#052a3b',bg2:'#0c735e',bg3:'#80b94a',shine:'#6bf6b0',orb:'#d6f47f',card:'#0d2429',bar:'#133239',border:'#528980',layer:'#48d7a0',layer2:'#cced64',text:'#e5ffe8',muted:'#80aaa0',keyword:'#99f7a2',string:'#f1f597',number:'#fbc788',comment:'#6e9993',function:'#67dff9',property:'#9cedd1',tag:'#ffc0a2',operator:'#d6d4ff',type:'#cce99b'},
+ noir: {bg1:'#070b20',bg2:'#331470',bg3:'#8b35ae',shine:'#a472ff',orb:'#ef6df1',card:'#0b1026',bar:'#161d3b',border:'#53609f',layer:'#7c4dff',layer2:'#e561e9',text:'#e5ebff',muted:'#7081ab',keyword:'#bb90ff',string:'#adf0c2',number:'#ffce7e',comment:'#7080a7',function:'#70defd',property:'#68e3e3',tag:'#fb8ad6',operator:'#dca6fa',type:'#ffb48b'},
+ lavender: {bg1:'#352676',bg2:'#7854c4',bg3:'#dac4ff',shine:'#e1bbff',orb:'#b5a2ff',card:'#211b3d',bar:'#322753',border:'#a487d0',layer:'#9679e9',layer2:'#ead7ff',text:'#f7f0ff',muted:'#978abc',keyword:'#dcb7ff',string:'#b7f0be',number:'#ffd28c',comment:'#9e92bd',function:'#a9d9ff',property:'#a1ebdc',tag:'#ffadc9',operator:'#f0bae5',type:'#ffbfaa'},
+ citrus: {bg1:'#244a47',bg2:'#598f56',bg3:'#edbd4f',shine:'#d8f074',orb:'#f5d157',card:'#15312e',bar:'#254b43',border:'#8cb46b',layer:'#d5e364',layer2:'#ffa84b',text:'#f3ffdf',muted:'#9bad8c',keyword:'#d3fb78',string:'#fff59c',number:'#ffaa70',comment:'#81978d',function:'#73e9c3',property:'#f3ee94',tag:'#b9eb91',operator:'#e9a2a8',type:'#ffde98'},
+ sakura: {bg1:'#5d286b',bg2:'#e06b9e',bg3:'#ffd4cd',shine:'#f7a8ce',orb:'#ffe0e1',card:'#2a1d39',bar:'#49314e',border:'#d28aad',layer:'#f79bc3',layer2:'#f7cad2',text:'#fff1f8',muted:'#b8a5b7',keyword:'#f6b4ee',string:'#c5f5bc',number:'#ffc889',comment:'#9d92ac',function:'#a4e6ff',property:'#82ddd3',tag:'#ff97aa',operator:'#f5abd0',type:'#ffd19e'},
+ ember: {bg1:'#3c142c',bg2:'#ad284a',bg3:'#fa9237',shine:'#ff6d67',orb:'#ffce72',card:'#241725',bar:'#472235',border:'#a65463',layer:'#df544b',layer2:'#fbb15d',text:'#fff1ec',muted:'#af8b99',keyword:'#ff9b74',string:'#ffcf9c',number:'#f9eb96',comment:'#9c8193',function:'#9ee4fa',property:'#f7b489',tag:'#ff7383',operator:'#e6aeaa',type:'#ffbe82'},
+ arctic: {bg1:'#153c74',bg2:'#6f9fc8',bg3:'#d1f0ee',shine:'#96cbed',orb:'#e0fff8',card:'#1c324a',bar:'#31506b',border:'#95c2d7',layer:'#61a8c3',layer2:'#b7d5de',text:'#f5fbff',muted:'#9fb6ca',keyword:'#abd1ff',string:'#c9f0ca',number:'#f4d591',comment:'#9aaebf',function:'#80dfff',property:'#84e1c9',tag:'#ffc0c9',operator:'#cfb5ff',type:'#f6c5a8'},
+ peach: {bg1:'#863e59',bg2:'#e07869',bg3:'#ffc891',shine:'#ffa5af',orb:'#ffddad',card:'#362638',bar:'#573b45',border:'#cb8f85',layer:'#f6ae8d',layer2:'#ffc1a2',text:'#fff3e6',muted:'#b3a1a4',keyword:'#f9b7bb',string:'#ffdf94',number:'#b7eccf',comment:'#ab9ba4',function:'#bcd3fa',property:'#81e9d6',tag:'#ff9aa6',operator:'#eab9db',type:'#fbd5a1'},
+ galaxy: {bg1:'#140d40',bg2:'#552ba5',bg3:'#1f8dd2',shine:'#9361f2',orb:'#4bdcff',card:'#101029',bar:'#1e2252',border:'#6d5bb7',layer:'#6e3af2',layer2:'#26c7ed',text:'#e6edff',muted:'#7976b1',keyword:'#c9a6ff',string:'#acebb9',number:'#ffe08f',comment:'#8881b1',function:'#73e5ff',property:'#83e8de',tag:'#ff8bda',operator:'#daacff',type:'#ffc0a0'},
+ emerald: {bg1:'#0b4549',bg2:'#0a8a75',bg3:'#8ddd8c',shine:'#5ff2ac',orb:'#baffb8',card:'#0c292c',bar:'#18433b',border:'#3c8b7c',layer:'#39d2a4',layer2:'#a9ffbe',text:'#eafff2',muted:'#78a69a',keyword:'#8affce',string:'#f2f29b',number:'#f7c58e',comment:'#79a69d',function:'#80ddff',property:'#b5ebc2',tag:'#ffbca2',operator:'#d0b6ff',type:'#ffd3a6'},
+ retro: {bg1:'#522568',bg2:'#bd427d',bg3:'#eeba59',shine:'#e69dc8',orb:'#ffe071',card:'#282137',bar:'#423252',border:'#a56592',layer:'#ef8db6',layer2:'#f6bf79',text:'#fff0e8',muted:'#b39ca8',keyword:'#ee9bd5',string:'#fff095',number:'#9be8c9',comment:'#aa8fae',function:'#83cfff',property:'#7fe0da',tag:'#ffaa90',operator:'#ffc0e4',type:'#fcd59c'},
+ cyber: {bg1:'#130b46',bg2:'#9125bc',bg3:'#08a4af',shine:'#c558ff',orb:'#30ffee',card:'#0d0b23',bar:'#1c1742',border:'#6550aa',layer:'#e344ce',layer2:'#21d9dd',text:'#e8fcff',muted:'#7c78b3',keyword:'#e873ff',string:'#b4fbc7',number:'#f4d17f',comment:'#8b86b9',function:'#59efff',property:'#65eade',tag:'#ffa0ce',operator:'#d4a3ff',type:'#ffd085'},
+ solar: {bg1:'#315069',bg2:'#b4865c',bg3:'#f4d28e',shine:'#d7c47b',orb:'#ffdda4',card:'#25313b',bar:'#384650',border:'#917c73',layer:'#d5a45b',layer2:'#e0be90',text:'#fff4d9',muted:'#b6b0a1',keyword:'#ffd17a',string:'#ade6c1',number:'#fbd390',comment:'#a49f96',function:'#97d9ff',property:'#8ce5cf',tag:'#ffaeab',operator:'#d7b9ef',type:'#f0c293'},
+ ice: {bg1:'#5369a6',bg2:'#be91dc',bg3:'#a3e1d3',shine:'#e0a8f1',orb:'#86e9e4',card:'#292d4e',bar:'#43415f',border:'#9c87c5',layer:'#a979e7',layer2:'#7de0d3',text:'#fff3ff',muted:'#aba0bc',keyword:'#e9baff',string:'#b9ecc2',number:'#ffe0aa',comment:'#a29bb7',function:'#a3dfff',property:'#8ae3dc',tag:'#ffa8cc',operator:'#deb4ff',type:'#ffcca6'}
+};
+const languageNames={javascript:'JavaScript',typescript:'TypeScript',html:'HTML',css:'CSS',java:'Java',cpp:'C++',python:'Python',json:'JSON',csharp:'C#',go:'Go',php:'PHP',plain:'Plain text'};
+const ext={javascript:'js',typescript:'ts',html:'html',css:'css',java:'java',cpp:'cpp',python:'py',json:'json',csharp:'cs',go:'go',php:'php',plain:'txt'};
+const state={theme:'aurora',style:'iso',layout:'auto',fontSize:19,showLines:true,transparentBg:false,wrapLines:true,wrapWidth:60};
+let svgMarkup='',imageWidth=1600,imageHeight=1000,previewURL='',renderTimer,toastTimer;
+const keywords = {
+ javascript:'const let var function return if else for while do class extends new import from export default async await try catch finally throw switch case break continue typeof instanceof in of this super true false null undefined void yield static get set constructor delete debugger with as satisfies await interface enum implements public private protected',
+ typescript:'const let var function return if else for while do class extends new import from export default async await try catch finally throw switch case break continue typeof instanceof in of this super true false null undefined void yield static get set constructor delete interface type enum implements public private protected readonly abstract as satisfies keyof infer unknown never any declare namespace module is asserts',
+ java:'public private protected static final class interface extends implements void return if else for while do new try catch finally throw throws switch case break continue this super null true false package import abstract synchronized volatile transient instanceof enum record var',
+ cpp:'include define ifdef endif pragma namespace using std int float double char bool void auto const constexpr static class struct public private protected template typename return if else for while do switch case break continue new delete this nullptr true false virtual override explicit inline unsigned signed long short sizeof static_cast dynamic_cast reinterpret_cast try catch throw noexcept',
+ python:'def class return if elif else for while in is not and or from import as async await with yield lambda try except finally raise pass break continue global nonlocal assert del True False None self print match case',
+ csharp:'using namespace class struct public private protected internal static readonly const void int string bool float double decimal var return if else for while do foreach in new this base null true false async await try catch finally throw switch case break continue interface enum record get set override virtual sealed',
+ go:'package import func var const type struct interface map chan return if else for range switch case default break continue go defer select make new nil true false int string bool float64 error',
+ php:'function class public private protected static const return if else elseif for foreach while do new use namespace echo print null true false try catch finally throw extends implements abstract final interface',
+ json:'true false null',css:'important media supports keyframes import font-face layer container root'
+};
+const keywordSets=Object.fromEntries(Object.entries(keywords).map(([k,v])=>[k,new Set(v.split(/\s+/))]));
+const builtins=new Set('Array Object String Number Boolean Math Date Promise Map Set WeakMap JSON console document window alert fetch HTMLElement NodeList System List HashMap Scanner Integer Double Float Collections StringBuilder std cout cin endl vector size_t printf scanf null'.split(' '));
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&apos;'}[c]));}
+function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
+function detect(src){
+ const explicit=$('language').value;
+ if(explicit!=='auto')return explicit;
+ const s=src.trim();
+ // Recognize strong syntax clues first, so pasting HTML into a .js tab still highlights as HTML.
+ if(/^\s*(?:<!DOCTYPE|<!--|<html\b|<\/?[a-z][\w:-]*[\s/>])/i.test(s))return 'html';
+ if(/^\s*#include\s*[<"]|\bstd::|\bcout\s*<</.test(s))return 'cpp';
+ if(/\bpublic\s+(?:static\s+)?class\b|System\.out\.println/.test(s))return 'java';
+ if(/^\s*(?:def |from \w+ import|print\(|class .*:)/m.test(s))return 'python';
+ if(/^\s*(?:@media|:root|\.[\w-]+\s*\{|#[\w-]+\s*\{)/m.test(s)&&/[a-z-]+\s*:\s*[^;]+;/.test(s))return 'css';
+ if(/^\s*[\[{][\s\S]*"[\w-]+"\s*:/.test(s)&&!s.includes('=>'))return 'json';
+ const file=$('filename').value.toLowerCase().trim();
+ const extMatch=file.match(/\.([a-z0-9]+)$/);
+ if(extMatch){const d={js:'javascript',jsx:'javascript',mjs:'javascript',ts:'typescript',tsx:'typescript',html:'html',htm:'html',xml:'html',svg:'html',css:'css',scss:'css',less:'css',java:'java',cpp:'cpp',cc:'cpp',c:'cpp',hpp:'cpp',h:'cpp',py:'python',json:'json',cs:'csharp',go:'go',php:'php'}[extMatch[1]];if(d)return d;}
+ if(/\b(?:const|let|function|console\.log|document\.)\b|=>/.test(s))return 'javascript';
+ return 'plain';
+}
+function tokenizeHtml(src){
+ const out=[];const tagRe=/(<!--[\s\S]*?-->|<!DOCTYPE[^>]*>|<\/?[A-Za-z][^>]*>)/gi;let pos=0,m;
+ while((m=tagRe.exec(src))!==null){if(m.index>pos)out.push({type:'text',text:src.slice(pos,m.index)});let tag=m[0];if(tag.startsWith('<!--')){out.push({type:'comment',text:tag});}else if(/^<!doctype/i.test(tag)){out.push({type:'keyword',text:tag});}else{
+   const leading=tag.match(/^<(\/?)((?:[A-Za-z][\w:-]*))/);if(!leading){out.push({type:'text',text:tag});}else{
+    out.push({type:'operator',text:'<'+leading[1]});out.push({type:'tag',text:leading[2]});let rest=tag.slice(leading[0].length);const r=/"(?:\\.|[^"\\])*"|'(?:\\.|[^'\\])*'|[A-Za-z_:][\w:.-]*(?=\s*=)|[=>/]|[^\s=/>"']+|\s+|./g;let rm;while((rm=r.exec(rest))){let tok=rm[0];out.push({type:/^['"]/.test(tok)?'string':/^[A-Za-z_:][\w:.-]*$/.test(tok)&&/\s*=/.test(rest.slice(r.lastIndex))?'property':/^[=>/]$/.test(tok)?'operator':'text',text:tok});}
+   }
+  }
+  pos=tagRe.lastIndex;}if(pos<src.length)out.push({type:'text',text:src.slice(pos)});return out;
+}
+function tokenizeGeneral(src,lang){
+ if(lang==='plain')return [{type:'text',text:src}];if(lang==='html')return tokenizeHtml(src);
+ const out=[];let i=0;const add=(type,text)=>{if(text)out.push({type,text});};let prevNonSpace='';
+ while(i<src.length){const ch=src[i],rest=src.slice(i);let m;
+  if((lang==='javascript'||lang==='typescript'||lang==='java'||lang==='cpp'||lang==='csharp'||lang==='go'||lang==='php'||lang==='css')&&rest.startsWith('/*')){let end=src.indexOf('*/',i+2);end=end<0?src.length:end+2;add('comment',src.slice(i,end));i=end;continue;}
+  if((['javascript','typescript','java','cpp','csharp','go','php'].includes(lang)&&rest.startsWith('//'))||(lang==='python'&&ch==='#')){let end=src.indexOf('\n',i);if(end<0)end=src.length;add('comment',src.slice(i,end));i=end;continue;}
+  if(lang==='cpp'&&ch==='#'&&(i===0||src.slice(src.lastIndexOf('\n',i-1)+1,i).trim()==='')){let end=src.indexOf('\n',i);if(end<0)end=src.length;add('keyword',src.slice(i,end));i=end;continue;}
+  if((ch==='"'||ch==="'"||ch==='`')&&!(lang==='css'&&ch==='`')){let j=i+1,escaped=false;while(j<src.length){const c=src[j];if(escaped){escaped=false;j++;continue;}if(c==='\\'){escaped=true;j++;continue;}j++;if(c===ch)break;if(c==='\n'&&ch!=='`')break;}add('string',src.slice(i,j));i=j;prevNonSpace=ch;continue;}
+  if(lang==='css'&&ch==='#'&&(m=rest.match(/^#[0-9a-fA-F]{3,8}\b/))){add('number',m[0]);i+=m[0].length;continue;}
+  if((m=rest.match(/^\b(?:0x[\da-fA-F]+|\d+(?:\.\d+)?)(?:px|rem|em|vh|vw|%|s|ms|deg)?\b/))){add('number',m[0]);i+=m[0].length;prevNonSpace='0';continue;}
+  if((m=rest.match(/^[a-zA-Z_$][\w$-]*/))){const word=m[0];const future=src.slice(i+word.length);const prev=prevNonSpace;let type='text';if(keywordSets[lang]?.has(word))type='keyword';else if(builtins.has(word)||/^[A-Z][A-Za-z\d_]*$/.test(word)&&lang!=='css')type='type';else if(lang==='css'&&/^\s*:/.test(future))type='property';else if(/^\s*\(/.test(future))type='function';else if(prev==='.')type='property';else if((lang==='json')&&/^\s*:/.test(future))type='property';add(type,word);i+=word.length;prevNonSpace=word[word.length-1];continue;}
+  if(/[=+*\/%!<>|&?^~:-]/.test(ch)){add('operator',ch);i++;prevNonSpace=ch;continue;}
+  if(/[{}()[\].,;]/.test(ch)){add('punctuation',ch);i++;prevNonSpace=ch;continue;}
+  add('text',ch);i++;if(!/\s/.test(ch))prevNonSpace=ch;
+ }
+ return out;
+}
+function splitForDisplay(tokens,maxColumns){
+ const original=[[]];
+ for(const token of tokens){
+  const normalized=token.text.replace(/\r\n?/g,'\n').replace(/\t/g,'  ');
+  const chunks=normalized.split('\n');
+  chunks.forEach((part,i)=>{
+   if(i>0)original.push([]);
+   if(part)original[original.length-1].push({type:token.type,text:part});
+  });
+ }
+ const output=[];
+ const columns=maxColumns>0?Math.max(15,maxColumns):0;
+ for(let index=0;index<original.length;index++){
+  const tokensOnLine=original[index];
+  if(!columns){output.push({segments:tokensOnLine,lineNumber:index+1,wrapped:false});continue;}
+  const chars=[];
+  for(const token of tokensOnLine)for(const char of Array.from(token.text))chars.push({type:token.type,char});
+  if(!chars.length){output.push({segments:[],lineNumber:index+1,wrapped:false});continue;}
+  let start=0,first=true;
+  while(start<chars.length){
+   let end=Math.min(start+columns,chars.length);
+   if(end<chars.length){
+    // Prefer breaking after whitespace when near the selected line width.
+    const earliest=start+Math.floor(columns*.57);
+    for(let candidate=end;candidate>earliest;candidate--){
+     if(/\s/.test(chars[candidate-1].char)){end=candidate;break;}
+    }
+   }
+   const pieces=[];
+   for(let i=start;i<end;i++){
+    const ch=chars[i],last=pieces[pieces.length-1];
+    if(last&&last.type===ch.type)last.text+=ch.char;
+    else pieces.push({type:ch.type,text:ch.char});
+   }
+   output.push({segments:pieces,lineNumber:first?index+1:null,wrapped:!first});
+   first=false;start=end;
+  }
+ }
+ return output;
+}
+function computeSvg(){
+ const src=$('code').value.replace(/\u0000/g,'');const lang=detect(src);const theme=themes[state.theme];const font=state.fontSize;
+ const wrapCols=state.wrapLines?state.wrapWidth:0;
+ const lines=splitForDisplay(tokenizeGeneral(src,lang),wrapCols);
+ const lineHeight=font*1.68;const gutter=state.showLines?68:0;
+ const maxLen=Math.max(20,...lines.map(l=>l.segments.reduce((n,s)=>n+Array.from(s.text).length,0)));
+ const charsForWidth=state.wrapLines?Math.max(54,Math.min(state.wrapWidth,maxLen)):maxLen;
+ const windowW=clamp(150+gutter+charsForWidth*font*.63,820,state.wrapLines?1590:3900);
+ const headerH=state.style==='minimal'?65:state.style==='terminal'?64:74,topPad=36,bottomPad=48;
+ const windowH=Math.max(330,headerH+topPad+lines.length*lineHeight+bottomPad);
+ let W,H;if(state.layout==='landscape'){W=1600;H=1000;}else if(state.layout==='square'){W=1200;H=1200;}else if(state.layout==='portrait'){W=1080;H=1350;}else {W=1600;H=clamp(Math.round(windowH*1.12+350),1080,9000);}
+ imageWidth=W;imageHeight=H;
+ const angles={iso:[1,-.20,.245,.86],flat:[1,0,0,1],glass:[1,0,0,1],terminal:[1,0,0,1],minimal:[1,0,0,1],stacked:[1,-.13,.17,.94]};
+ const [a,b,c,d]=angles[state.style]||angles.flat;
+ const corners=[[0,0],[windowW,0],[0,windowH],[windowW,windowH]].map(([x,y])=>[a*x+c*y,b*x+d*y]);const xs=corners.map(p=>p[0]),ys=corners.map(p=>p[1]);const minX=Math.min(...xs),maxX=Math.max(...xs),minY=Math.min(...ys),maxY=Math.max(...ys);
+ const padW=state.layout==='portrait'?65:95,padH=state.layout==='landscape'?105:state.layout==='square'?130:80;
+ const scale=Math.min((W-2*padW)/(maxX-minX+80),(H-2*padH)/(maxY-minY+60),1.6);
+ const tx=(W-scale*(minX+maxX))/2-8,ty=(H-scale*(minY+maxY))/2-4;
+ const title=$('filename').value.trim()||'untitled.'+(ext[lang]||'txt');const fileTitle=title.length>34?title.slice(0,31)+'…':title;const iconLabels={javascript:'JS',typescript:'TS',html:'<>',css:'#',java:'J',cpp:'C++',python:'PY',json:'{}',csharp:'C#',go:'GO',php:'PHP',plain:'TXT'};const fileColors={javascript:'#f2cf72',typescript:'#78c3fc',html:'#ff9a7b',css:'#7db4ff',java:'#ff9b91',cpp:'#83b3ff',python:'#9fe7b6',json:'#f8ca83',csharp:'#c89aff',go:'#81e8f1',php:'#b1a4f4',plain:'#c4d3eb'};
+ const codeX=38+gutter;const codeY=headerH+topPad+font*.84;const textBase=`font-family="Consolas, 'DejaVu Sans Mono', 'Courier New', monospace" font-size="${font}" font-weight="500" xml:space="preserve"`;
+ let codeSvg='';lines.forEach((line,i)=>{const y=codeY+i*lineHeight;
+ if(state.showLines&&line.lineNumber!==null)codeSvg+=`<text x="${codeX-33}" y="${y.toFixed(2)}" text-anchor="end" ${textBase} fill="${theme.muted}" opacity=".76">${line.lineNumber}</text>`;
+ if(!line.segments.length)return;
+ codeSvg+=`<text x="${codeX}" y="${y.toFixed(2)}" ${textBase}>`;
+ for(const t of line.segments){const color=theme[t.type]||theme.text;codeSvg+=`<tspan fill="${color}">${esc(t.text)}</tspan>`;}
+ codeSvg+='</text>';});
+ const outerTextWidth=windowW-200;
+ const radius=state.style==='terminal'?12:state.style==='minimal'?28:23;
+ const isGlass=state.style==='glass',isTerminal=state.style==='terminal',isMinimal=state.style==='minimal',isStacked=state.style==='stacked',isIso=state.style==='iso';
+ const chromeTop=isMinimal?`<rect x="25" y="18" rx="12" width="${Math.min(320,150+fileTitle.length*12)}" height="36" fill="${theme.bar}" opacity=".95"/><text x="44" y="42" font-family="Arial, sans-serif" font-size="20" font-weight="700" fill="${theme.text}">${esc(fileTitle)}</text>`:
+ isTerminal?`<rect x="0" y="0" width="${windowW}" height="${headerH}" rx="12" fill="#121826"/><path d="M0 ${headerH}H${windowW}" stroke="${theme.layer}" stroke-width="2"/><text x="28" y="42" font-family="Consolas,monospace" font-size="24" fill="${theme.layer2}">❯_</text><text x="90" y="41" font-family="Consolas,monospace" font-size="18" fill="${theme.text}">${esc(fileTitle)}</text><circle cx="${windowW-44}" cy="33" r="9" fill="${theme.layer}"/>`:
+ `<path d="M23 0H${windowW-23}Q${windowW} 0 ${windowW} 23V${headerH}H0V23Q0 0 23 0Z" fill="url(#panel)" ${isGlass?'opacity=".88"':''}/>
+  <path d="M0 ${headerH}H${windowW}" stroke="${theme.border}" stroke-width="1.3" opacity=".65"/>
+  <circle cx="34" cy="36" r="8.5" fill="#ff657b"/><circle cx="62" cy="36" r="8.5" fill="#ffc36a"/><circle cx="90" cy="36" r="8.5" fill="#64e5a1"/>
+  <rect x="127" y="13" width="${clamp(140+fileTitle.length*font*.51,150,outerTextWidth)}" height="61" rx="8" fill="${theme.card}"/>
+  <path d="M139 72H${clamp(267+fileTitle.length*font*.51,277,outerTextWidth+127)}" stroke="${theme.layer2}" stroke-width="3"/>
+  <rect x="143" y="27" width="29" height="28" rx="5" fill="${fileColors[lang]}"/>
+  <text x="157.5" y="46.8" text-anchor="middle" font-family="Arial, sans-serif" font-size="${iconLabels[lang].length>2?10:13}" font-weight="800" fill="#192038">${esc(iconLabels[lang])}</text>
+  <text x="185" y="47" font-family="Arial, sans-serif" font-size="21" font-weight="600" fill="${theme.text}">${esc(fileTitle)}</text>
+  <g stroke="${theme.muted}" stroke-width="2" fill="none" opacity=".8"><path d="M${windowW-95} 27h19v20h-19zM${windowW-87} 27v-7h19v20h-8"/><path d="M${windowW-41} 30l10 8-10 8"/></g>`;
+ const backplates=isIso?`<rect x="37" y="54" width="${windowW}" height="${windowH}" rx="25" fill="#030919" opacity=".28"/><rect x="27" y="42" width="${windowW}" height="${windowH}" rx="23" fill="${theme.layer2}" opacity=".38"/><rect x="14" y="23" width="${windowW}" height="${windowH}" rx="23" fill="url(#depth)" opacity=".82"/>`:
+ isStacked?`<rect x="48" y="56" width="${windowW}" height="${windowH}" rx="28" fill="${theme.layer2}" opacity=".72"/><rect x="28" y="30" width="${windowW}" height="${windowH}" rx="25" fill="${theme.layer}" opacity=".83"/><rect x="8" y="10" width="${windowW}" height="${windowH}" rx="24" fill="${theme.bar}" opacity=".95"/>`:
+ isGlass?`<rect x="26" y="30" width="${windowW}" height="${windowH}" rx="34" fill="${theme.layer}" opacity=".28"/><rect x="10" y="12" width="${windowW}" height="${windowH}" rx="32" fill="${theme.layer2}" opacity=".26"/>`:
+ `<rect x="18" y="25" width="${windowW}" height="${windowH}" rx="${radius}" fill="#04071a" opacity="${isMinimal?'.15':'.40'}"/>`;
+ const faceFill=isTerminal?'#121826':theme.card;
+ const faceStroke=isGlass?theme.layer2:isMinimal?theme.muted:theme.border;
+ const frameExtras=isGlass?`<rect x="9" y="9" width="${windowW-18}" height="${windowH-18}" rx="25" fill="none" stroke="${theme.shine}" stroke-width="2" opacity=".45"/><path d="M22 17H${windowW-22}" stroke="#ffffff" stroke-width="2" opacity=".18"/>`:
+ isStacked?`<path d="M8 ${windowH+8}H${windowW+8}" stroke="${theme.layer2}" stroke-width="6" opacity=".45"/>`:
+ isTerminal?`<path d="M14 14H${windowW-14}" stroke="${theme.layer2}" stroke-width="1" opacity=".5"/>`:'';
+ const transparentBg = state.transparentBg;
+ const canvasBackground = transparentBg ? '' : `<rect width="${W}" height="${H}" fill="url(#canvas)"/>
+ <g opacity=".12"><circle cx="${Math.round(W*.08)}" cy="${Math.round(H*.1)}" r="${Math.round(W*.25)}" fill="${theme.shine}"/><circle cx="${Math.round(W*.91)}" cy="${Math.round(H*.87)}" r="${Math.round(W*.27)}" fill="${theme.orb}"/></g>
+ <g fill="none" stroke="#ffffff" opacity=".15"><circle cx="${W*.92}" cy="${H*.23}" r="${W*.13}" stroke-width="1.5"/><circle cx="${W*.92}" cy="${H*.23}" r="${W*.17}" stroke-width="1"/><circle cx="${W*.085}" cy="${H*.89}" r="${W*.15}" stroke-width="1.5"/></g>
+ <g opacity=".3" fill="#ffffff">${Array.from({length:42},(_,i)=>{const x=((i*193+67)%1000)/1000*W,y=((i*127+133)%1000)/1000*H;return `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${i%6===0?2.2:1.15}"/>`;}).join('')}</g>`;
+ svgMarkup=`<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(title)} code snippet with colorful syntax highlighting">
+ <defs>
+  <linearGradient id="canvas" x1="0%" y1="0%" x2="98%" y2="100%"><stop offset="0%" stop-color="${theme.bg1}"/><stop offset="55%" stop-color="${theme.bg2}"/><stop offset="100%" stop-color="${theme.bg3}"/></linearGradient>
+  <linearGradient id="panel" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="${theme.bar}"/><stop offset="100%" stop-color="${theme.card}"/></linearGradient>
+  <linearGradient id="depth" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="${theme.layer}"/><stop offset="100%" stop-color="${theme.layer2}"/></linearGradient>
+  <clipPath id="codeclip"><rect x="12" y="${headerH}" width="${windowW-24}" height="${windowH-headerH-15}" rx="5"/></clipPath>
+ </defs>
+ ${canvasBackground}
+ <g transform="translate(${tx.toFixed(2)} ${ty.toFixed(2)}) scale(${scale.toFixed(5)}) matrix(${a} ${b} ${c} ${d} 0 0)">
+  ${backplates}
+  <rect x="0" y="0" width="${windowW}" height="${windowH}" rx="${radius}" fill="${faceFill}" stroke="${faceStroke}" stroke-width="${isGlass?3:2.5}"/>
+  ${frameExtras}
+  ${chromeTop}
+  <g clip-path="url(#codeclip)">${state.showLines?`<path d="M${codeX-16} ${headerH+16}V${windowH-18}" stroke="${theme.border}" opacity=".26"/>`:''}${codeSvg}</g>
+  <path d="M24 ${windowH-16}H${windowW-24}" stroke="${theme.border}" stroke-width="1" opacity=".15"/>
+ </g></svg>`;
+ $('preview-size').textContent=W.toLocaleString()+' × '+H.toLocaleString();$('wrap-status').textContent=(state.wrapLines?'Wrap: on · '+state.wrapWidth+' chars':'Wrap: off') + (state.transparentBg?' · Background: transparent':'');$('detected-label').textContent=languageNames[lang]+' '+($('language').value==='auto'?'detected':'selected');$('file-label').textContent=title;$('editor-icon').textContent=iconLabels[lang];$('editor-icon').style.backgroundColor=fileColors[lang];$('code-counter').textContent=src.split('\n').length+' lines · '+src.length.toLocaleString()+' characters';
+ return svgMarkup;
+}
+function render(){computeSvg();$('preview-area').classList.toggle('is-transparent',state.transparentBg);if(previewURL)URL.revokeObjectURL(previewURL);previewURL=URL.createObjectURL(new Blob([svgMarkup],{type:'image/svg+xml;charset=utf-8'}));$('preview').src=previewURL;}
+function queueRender(){clearTimeout(renderTimer);renderTimer=setTimeout(render,100);}
+function toast(msg){const el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),3000);}
+function baseName(){return ($('filename').value.trim()||'code-snippet').replace(/\.[^.]+$/,'').replace(/[^a-zA-Z0-9_.-]+/g,'-').slice(0,75)||'code-snippet';}
+function download(blob,name){const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);}
+function saveSvg(){render();const b=new Blob([svgMarkup],{type:'image/svg+xml;charset=utf-8'});download(b,baseName()+'-'+state.style+'.svg');toast('SVG image downloaded — ready for Canva' + (state.transparentBg?' with transparency.':'.'));}
+async function saveRaster(format){render();const quality=Number($('resolution').value);const factor=Math.min(quality,Math.sqrt(60e6/(imageWidth*imageHeight)));const w=Math.round(imageWidth*factor),h=Math.round(imageHeight*factor);const bmp=document.createElement('canvas');bmp.width=w;bmp.height=h;const ctx=bmp.getContext('2d');if(!ctx){toast('Your browser could not create a canvas.');return;}
+ try{const img=new Image();const blobURL=URL.createObjectURL(new Blob([svgMarkup],{type:'image/svg+xml;charset=utf-8'}));await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=blobURL;});if(format==='jpeg'){ctx.fillStyle=state.transparentBg?'#f8f6ff':'#ffffff';ctx.fillRect(0,0,w,h);}ctx.drawImage(img,0,0,w,h);URL.revokeObjectURL(blobURL);const mime=format==='jpeg'?'image/jpeg':'image/png';const blob=await new Promise((resolve,reject)=>bmp.toBlob(b=>b?resolve(b):reject(new Error('Canvas export failed')),mime,format==='jpeg'?.95:undefined));download(blob,baseName()+'-'+state.style+'.'+(format==='jpeg'?'jpg':'png'));toast((format==='jpeg'?'JPG':'PNG')+' downloaded at '+w+' × '+h + (format==='png'&&state.transparentBg?' with transparency.':'.'));}
+ catch(e){console.error(e);toast('Export failed. Try SVG, or reduce export quality.');}}
+const updateTheme=theme=>{state.theme=theme;document.querySelectorAll('.theme-swatch').forEach(b=>{const selected=b.dataset.theme===theme;b.classList.toggle('selected',selected);b.setAttribute('aria-pressed',String(selected));});queueRender();};
+const updateStyle=style=>{state.style=style;document.querySelectorAll('.style-choice').forEach(b=>{const on=b.id===style;b.classList.toggle('selected',on);b.setAttribute('aria-pressed',String(on));});queueRender();};
+function syncWrap(){const active=state.wrapLines;const editor=$('code');editor.wrap=active?'soft':'off';editor.style.whiteSpace=active?'pre-wrap':'pre';editor.style.overflowWrap=active?'anywhere':'normal';$('wrap-config').classList.toggle('is-disabled',!active);}
+function setToggle(id,key,val){state[key]=val;$(id).setAttribute('aria-pressed',String(val));$(id).setAttribute('aria-checked',String(val));if(key==='wrapLines')syncWrap();queueRender();}
+function updateFilenameForLanguage(){const val=$('language').value;if(val!=='auto'){$('filename').value='colorful-code.'+ext[val];}queueRender();}
+function reset(){state.wrapWidth=60;$('wrap-width').value='60';state.fontSize=19;state.showLines=true;state.transparentBg=false;state.wrapLines=true;state.layout='auto';$('font-size').value=19;$('font-size-value').textContent='19';$('layout').value='auto';$('resolution').value='2';setToggle('show-lines','showLines',true);setToggle('transparent-bg','transparentBg',false);setToggle('wrap-lines','wrapLines',true);updateStyle('iso');updateTheme('aurora');toast('Design settings restored. Your code is unchanged.');}
+$('code').value=sampleCode;
+$('code').addEventListener('input',queueRender);$('filename').addEventListener('input',queueRender);$('language').addEventListener('change',updateFilenameForLanguage);
+$('code').addEventListener('keydown',e=>{if(e.key==='Tab'){e.preventDefault();const ta=e.target,start=ta.selectionStart,end=ta.selectionEnd;ta.setRangeText('  ',start,end,'end');queueRender();}if((e.ctrlKey||e.metaKey)&&e.key==='Enter'){e.preventDefault();saveSvg();}});
+$('sample').addEventListener('click',()=>{const lang=$('language').value==='auto'?'javascript':$('language').value;$('code').value=examples[lang]||sampleCode;queueRender();toast('Example code loaded.');});
+$('themes').addEventListener('click',e=>{const b=e.target.closest('[data-theme]');if(b)updateTheme(b.dataset.theme);});$('styles').addEventListener('click',e=>{const b=e.target.closest('.style-choice');if(b)updateStyle(b.id);});
+$('layout').addEventListener('change',e=>{state.layout=e.target.value;queueRender();});$('font-size').addEventListener('input',e=>{state.fontSize=Number(e.target.value);$('font-size-value').textContent=e.target.value;queueRender();});
+$('wrap-width').addEventListener('change',e=>{state.wrapWidth=Number(e.target.value);queueRender();});$('show-lines').addEventListener('click',()=>setToggle('show-lines','showLines',!state.showLines));$('transparent-bg').addEventListener('click',()=>setToggle('transparent-bg','transparentBg',!state.transparentBg));$('wrap-lines').addEventListener('click',()=>setToggle('wrap-lines','wrapLines',!state.wrapLines));
+$('save-svg').addEventListener('click',saveSvg);$('quick-save-svg').addEventListener('click',saveSvg);$('save-jpg').addEventListener('click',()=>saveRaster('jpeg'));$('save-png').addEventListener('click',()=>saveRaster('png'));$('reset-design').addEventListener('click',reset);
+$('copy-svg').addEventListener('click',async()=>{render();try{await navigator.clipboard.writeText(svgMarkup);toast('SVG source copied to clipboard.');}catch(e){toast('Clipboard is unavailable here; use Export SVG instead.');}});
+setToggle('show-lines','showLines',state.showLines);setToggle('transparent-bg','transparentBg',state.transparentBg);setToggle('wrap-lines','wrapLines',state.wrapLines);render();
+})();
+</script>
+</body>
+</html>
